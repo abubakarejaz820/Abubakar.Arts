@@ -23,7 +23,7 @@ export default function AdminOrders() {
       try {
         // ✅ Fixed: Use Vercel backend endpoint
         const res = await fetch(
-          "https://new-backend-jet.vercel.app"
+          "https://new-backend-beta.vercel.app/api/order"
         );
 
         if (!res.ok) {
