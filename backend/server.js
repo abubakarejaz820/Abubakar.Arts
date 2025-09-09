@@ -2,7 +2,9 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const app = express();
-const PORT = 5000;
+
+// Port dynamically for Vercel, fallback to 5000 for local
+const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors());
@@ -18,7 +20,7 @@ app.get("/api/orders", (req, res) => {
 
 // POST new order
 app.post("/api/orders", (req, res) => {
-  const { items, total } = req.body;
+  const { items, total, customer_name, customer_email, customer_phone, customer_city } = req.body;
 
   if (!items || !total) {
     return res.status(400).json({ message: "Invalid order data" });
@@ -29,12 +31,13 @@ app.post("/api/orders", (req, res) => {
     items,
     total,
     status: "Pending",
+    customer_name,
+    customer_email,
+    customer_phone,
+    customer_city,
   };
 
   orders.push(newOrder);
-
-  // Normally yahan email send karte ho
-  // But frontend ke liye sirf order object bhej rahe hain
   res.status(201).json({ order: newOrder });
 });
 

@@ -30,11 +30,14 @@ export const Cart = ({ onClose }: CartProps) => {
       return;
     }
 
-    if (cartItems.length === 0) return;
+    if (cartItems.length === 0) {
+      setCheckoutMessage('Your cart is empty.');
+      return;
+    }
 
     try {
-      // 1. Create order in backend
-      const response = await fetch('http://localhost:5000/api/orders', {
+      // ✅ Correct backend endpoint for Vercel
+      const response = await fetch('https://new-backend-jet.vercel.app/api/order', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -52,12 +55,17 @@ export const Cart = ({ onClose }: CartProps) => {
         }),
       });
 
-      if (!response.ok) throw new Error('Failed to create order');
       const data = await response.json();
-      const order = data.order;
-      if (!order?.id) throw new Error('Order ID missing');
 
-      // 2. Send Email to admin
+      if (!response.ok) {
+        console.error('Backend error:', data);
+        throw new Error(data.message || 'Failed to create order');
+      }
+
+      const order = data.order;
+      if (!order?.id) throw new Error('Order ID missing from backend response');
+
+      // Send Email to admin
       try {
         await emailjs.send(
           'service_lll8dag',
@@ -78,14 +86,14 @@ export const Cart = ({ onClose }: CartProps) => {
         console.error('EmailJS error:', emailError);
       }
 
-      // 3. Clear cart
+      // Clear cart
       clearCart();
 
-      // 4. Redirect to order-success page
+      // Redirect to order success page
       navigate(`/order-success?orderId=${order.id}`);
-    } catch (error) {
+    } catch (error: any) {
       console.error('Checkout error:', error);
-      setCheckoutMessage('Checkout failed. Please try again.');
+      setCheckoutMessage(error.message || 'Checkout failed. Please try again.');
     }
   };
 
