@@ -37,7 +37,7 @@ export const Cart = ({ onClose }: CartProps) => {
 
     try {
       // ✅ Correct backend endpoint for Vercel
-      const response = await fetch('https://new-backend-jet.vercel.app/api/order', {
+      const response = await fetch('https://new-backend-jet.vercel.app', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
