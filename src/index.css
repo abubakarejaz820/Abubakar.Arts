@@ -6,3 +6,15 @@ body {
   margin: 0;
   padding: 0;
 }
+
+/* Animated blob backgrounds for About section */
+@keyframes blob-1 {
+  0%, 100% { transform: scale(1) translateY(0); }
+  50% { transform: scale(1.1) translateY(20px); }
+}
+@keyframes blob-2 {
+  0%, 100% { transform: scale(1) translateY(0); }
+  50% { transform: scale(1.1) translateY(-20px); }
+}
+.animate-blob-1 { animation: blob-1 12s infinite ease-in-out; }
+.animate-blob-2 { animation: blob-2 14s infinite ease-in-out; }
