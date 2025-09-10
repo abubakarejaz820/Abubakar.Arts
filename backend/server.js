@@ -1,47 +1,26 @@
-const express = require("express");
-const cors = require("cors");
-const bodyParser = require("body-parser");
+import express from "express";
+import cors from "cors";
+import bodyParser from "body-parser";
+import orderHandler from "./api/order.js";
+
 const app = express();
 
-// Port dynamically for Vercel, fallback to 5000 for local
-const PORT = process.env.PORT || 5000;
-
-// Middleware
-app.use(cors());
+// ✅ Use wide CORS or your frontend domain
+app.use(
+  cors({
+    origin: ["https://abubakar-arts.netlify.app"], // your frontend
+    methods: ["GET", "POST", "OPTIONS"],
+  })
+);
 app.use(bodyParser.json());
 
-// Temporary in-memory "database"
-let orders = [];
+// Routes
+app.all("/api/order", orderHandler); // GET & POST
 
-// GET all orders
-app.get("/api/orders", (req, res) => {
-  res.json({ orders });
+// Root route
+app.get("/", (req, res) => {
+  res.send("Backend is running!");
 });
 
-// POST new order
-app.post("/api/orders", (req, res) => {
-  const { items, total, customer_name, customer_email, customer_phone, customer_city } = req.body;
-
-  if (!items || !total) {
-    return res.status(400).json({ message: "Invalid order data" });
-  }
-
-  const newOrder = {
-    id: Date.now().toString(),
-    items,
-    total,
-    status: "Pending",
-    customer_name,
-    customer_email,
-    customer_phone,
-    customer_city,
-  };
-
-  orders.push(newOrder);
-  res.status(201).json({ order: newOrder });
-});
-
-// Start server
-app.listen(PORT, () => {
-  console.log(`Backend running at http://localhost:${PORT}`);
-});
+// Export Express app as default for Vercel
+export default app;

@@ -1,9 +1,11 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "type": "commonjs",
+  "type": "module",
+  "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "dev": "node index.js",
+    "start": "node index.js"
   },
   "dependencies": {
     "body-parser": "^2.2.0",
