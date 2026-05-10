@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ZoomIn, X } from 'lucide-react';
 import type { Artwork } from '../data/artworks.ts';
 import { artworks, categories } from '../data/artworks.ts';
+import { useCartContext } from '../hooks/CartContext';
 
 // Format price helper
 const formatPrice = (price: number) => `Rs ${price.toLocaleString()}`;
@@ -10,6 +11,8 @@ const formatPrice = (price: number) => `Rs ${price.toLocaleString()}`;
 const Gallery: React.FC = () => {
   const [selectedArtwork, setSelectedArtwork] = useState<Artwork | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
+  const [selectedSize, setSelectedSize] = useState<string>('');
+  const { addToCart } = useCartContext();
 
   // Filtered artworks
   const filteredArtworks =
@@ -78,7 +81,7 @@ const Gallery: React.FC = () => {
                 whileHover={{ y: -8, boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.2)" }}
                 className="group relative rounded-2xl overflow-hidden shadow-xl bg-white dark:bg-zinc-900 transform transition-transform duration-500 cursor-pointer"
               >
-                <div className="relative overflow-hidden" onClick={() => setSelectedArtwork(artwork)}>
+                <div className="relative overflow-hidden" onClick={() => { setSelectedArtwork(artwork); setSelectedSize(artwork.sizes[0]); }}>
                   <img
                     src={artwork.imageUrl}
                     alt={artwork.title}
@@ -125,7 +128,7 @@ const Gallery: React.FC = () => {
 
                   {/* View Details Button */}
                   <button
-                    onClick={() => setSelectedArtwork(artwork)}
+                    onClick={() => { setSelectedArtwork(artwork); setSelectedSize(artwork.sizes[0]); }}
                     className="mt-auto w-full py-3 rounded-xl bg-amber-600 text-white font-semibold hover:bg-amber-700 transition-all duration-300 shadow-md hover:shadow-lg"
                   >
                     View Details
@@ -170,9 +173,9 @@ const Gallery: React.FC = () => {
                     />
                   </div>
 
-                  <div className="p-8 flex flex-col justify-between">
+                  <div className="p-4 sm:p-8 flex flex-col justify-between">
                     <div>
-                      <h3 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+                      <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-2">
                         {selectedArtwork.title}
                       </h3>
                       <p className="text-lg text-gray-600 dark:text-gray-400 mb-4">{selectedArtwork.artist}</p>
@@ -192,20 +195,27 @@ const Gallery: React.FC = () => {
 
                       <div className="mb-6">
                         <h4 className="font-semibold text-gray-900 dark:text-white mb-3">Available Sizes:</h4>
-                        <div className="flex flex-wrap gap-2">
+                        <select
+                          value={selectedSize}
+                          onChange={(e) => setSelectedSize(e.target.value)}
+                          className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 dark:border-zinc-700 dark:bg-zinc-800 dark:text-gray-100"
+                        >
                           {selectedArtwork.sizes.map((size) => (
-                            <span
-                              key={size}
-                              className="bg-gray-100 dark:bg-zinc-700 text-gray-700 dark:text-gray-300 px-3 py-2 rounded-lg font-medium"
-                            >
+                            <option key={size} value={size}>
                               {size}
-                            </span>
+                            </option>
                           ))}
-                        </div>
+                        </select>
                       </div>
                     </div>
                     
-                    <button className="w-full py-3 rounded-xl bg-amber-600 text-white font-semibold hover:bg-amber-700 transition-all duration-300 shadow-md hover:shadow-lg">
+                    <button
+                      onClick={() => {
+                        addToCart(selectedArtwork, selectedSize || selectedArtwork.sizes[0]);
+                        setSelectedArtwork(null);
+                      }}
+                      className="w-full py-3 rounded-xl bg-amber-600 text-white font-semibold hover:bg-amber-700 transition-all duration-300 shadow-md hover:shadow-lg"
+                    >
                       Add to Cart
                     </button>
                   </div>

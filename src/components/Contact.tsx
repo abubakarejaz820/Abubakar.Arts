@@ -3,7 +3,7 @@ export const Contact = (): ReactElement => {
   return (
     <section
       id="contact"
-      className="relative py-28 sm:py-40 bg-gradient-to-br from-white via-amber-50 to-zinc-100 dark:from-zinc-950 dark:via-zinc-900 dark:to-amber-900 overflow-hidden"
+      className="relative py-16 sm:py-24 lg:py-32 bg-gradient-to-br from-white via-amber-50 to-zinc-100 dark:from-zinc-950 dark:via-zinc-900 dark:to-amber-900 overflow-hidden"
     >
       {/* Decorative Floating Blobs (Aesthetic) */}
       <div className="absolute -top-40 -left-40 w-80 h-80 bg-gradient-to-br from-amber-400 to-amber-600 dark:from-amber-600 dark:to-amber-800 rounded-full opacity-10 animate-blob-1 pointer-events-none filter blur-3xl"></div>
@@ -11,25 +11,25 @@ export const Contact = (): ReactElement => {
       <div className="absolute top-1/4 left-1/4 w-60 h-60 bg-gradient-to-tr from-sky-400 to-sky-600 dark:from-sky-600 dark:to-sky-800 rounded-full opacity-10 animate-blob-3 pointer-events-none filter blur-3xl"></div>
 
       {/* Main Content Container */}
-      <div className="relative container mx-auto px-6 lg:px-12 z-10">
+      <div className="relative container mx-auto px-4 sm:px-6 lg:px-12 z-10">
         {/* Section Header */}
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl sm:text-6xl font-extrabold text-gray-900 dark:text-white tracking-tight leading-tight drop-shadow-lg">
+          <h2 className="text-3xl sm:text-5xl font-extrabold text-gray-900 dark:text-white tracking-tight leading-tight drop-shadow-lg">
             Connect With Us
           </h2>
-          <p className="mt-6 text-xl text-gray-600 dark:text-gray-300 font-medium max-w-2xl mx-auto">
+          <p className="mt-4 text-base sm:text-lg text-gray-600 dark:text-gray-300 font-medium max-w-2xl mx-auto">
             Reach out for custom art inquiries, collaborations, or any questions about our collection. We're here to help you find the perfect piece.
           </p>
         </div>
 
         {/* Contact Cards Grid */}
-        <div className="mt-24 grid grid-cols-1 sm:grid-cols-2 gap-10 md:gap-16 justify-center items-start">
+        <div className="mt-12 sm:mt-20 grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-10 md:gap-16 justify-center items-start">
           {/* Instagram Card */}
           <a
             href="https://www.instagram.com/abubakar.arts"
             target="_blank"
             rel="noopener noreferrer"
-            className="group relative flex flex-col items-center p-8 rounded-3xl bg-white/60 dark:bg-zinc-800/60 shadow-lg border border-gray-200 dark:border-zinc-700 hover:shadow-2xl hover:scale-105 transition-all duration-500 backdrop-blur-xl transform-gpu overflow-hidden hover:shadow-amber-200 dark:hover:shadow-amber-900 hover:border-amber-500 dark:hover:border-amber-800"
+            className="group relative flex flex-col items-center p-5 sm:p-8 rounded-3xl bg-white/60 dark:bg-zinc-800/60 shadow-lg border border-gray-200 dark:border-zinc-700 hover:shadow-2xl hover:scale-[1.02] transition-all duration-500 backdrop-blur-xl transform-gpu overflow-hidden hover:shadow-amber-200 dark:hover:shadow-amber-900 hover:border-amber-500 dark:hover:border-amber-800"
           >
             {/* Card Hover Effect */}
             <div className="absolute inset-0 z-0 bg-gradient-to-br from-amber-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl"></div>
@@ -67,7 +67,7 @@ export const Contact = (): ReactElement => {
                   />
                 </svg>
               </div>
-              <span className="mt-6 text-2xl font-semibold text-gray-900 dark:text-white transition-colors duration-500 group-hover:text-amber-500">
+              <span className="mt-4 sm:mt-6 text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white transition-colors duration-500 group-hover:text-amber-500 break-all text-center">
                 @abubakar.arts
               </span>
             </div>
@@ -76,7 +76,7 @@ export const Contact = (): ReactElement => {
           {/* Phone Card */}
           <a
             href="tel:+92328818275"
-            className="group relative flex flex-col items-center p-8 rounded-3xl bg-white/60 dark:bg-zinc-800/60 shadow-lg border border-gray-200 dark:border-zinc-700 hover:shadow-2xl hover:scale-105 transition-all duration-500 backdrop-blur-xl transform-gpu overflow-hidden hover:shadow-amber-200 dark:hover:shadow-amber-900 hover:border-amber-500 dark:hover:border-amber-800"
+            className="group relative flex flex-col items-center p-5 sm:p-8 rounded-3xl bg-white/60 dark:bg-zinc-800/60 shadow-lg border border-gray-200 dark:border-zinc-700 hover:shadow-2xl hover:scale-[1.02] transition-all duration-500 backdrop-blur-xl transform-gpu overflow-hidden hover:shadow-amber-200 dark:hover:shadow-amber-900 hover:border-amber-500 dark:hover:border-amber-800"
           >
             {/* Card Hover Effect */}
             <div className="absolute inset-0 z-0 bg-gradient-to-br from-amber-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl"></div>
@@ -97,7 +97,7 @@ export const Contact = (): ReactElement => {
                   <path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2" />
                 </svg>
               </div>
-              <span className="mt-6 text-2xl font-semibold text-gray-900 dark:text-white transition-colors duration-500 group-hover:text-amber-500">
+              <span className="mt-4 sm:mt-6 text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white transition-colors duration-500 group-hover:text-amber-500 break-all text-center">
                 +92 328818275
               </span>
             </div>

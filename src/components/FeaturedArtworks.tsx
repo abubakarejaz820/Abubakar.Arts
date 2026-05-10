@@ -46,17 +46,17 @@ export const FeaturedArtworks = () => {
 
   return (
     <section className="bg-gradient-to-br from-white via-amber-50 to-zinc-100 dark:from-zinc-950 dark:via-zinc-900 dark:to-amber-900 py-20 sm:py-32" id="featured-art">
-      <div className="container mx-auto px-4 sm:px-8">
+      <div className="container mx-auto px-4 sm:px-6">
         <div className="text-center mb-16">
-          <h2 className="text-5xl font-extrabold text-gray-900 dark:text-white tracking-tight drop-shadow-lg">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-gray-900 dark:text-white tracking-tight drop-shadow-lg">
             🌟 Featured Artworks
           </h2>
-          <p className="mt-4 text-2xl text-gray-600 dark:text-gray-400 font-medium max-w-2xl mx-auto">
+          <p className="mt-3 text-base sm:text-lg text-gray-600 dark:text-gray-400 font-medium max-w-2xl mx-auto">
             Hand-picked selections of our most celebrated pieces. Discover the beauty of Islamic calligraphy in modern style.
           </p>
         </div>
 
-        <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="grid gap-6 sm:gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {featuredArtworks.map(artwork => (
             <motion.div
               key={artwork.id}
@@ -70,7 +70,7 @@ export const FeaturedArtworks = () => {
               transition={{ duration: 0.5 }}
             >
               <div className="absolute inset-0 pointer-events-none z-0 group-hover:animate-pulse group-hover:shadow-[0_0_40px_10px_rgba(255,193,7,0.25)]"></div>
-              <div className="w-full h-72 overflow-hidden relative">
+              <div className="w-full h-60 sm:h-72 overflow-hidden relative">
                 <img
                   src={artwork.imageUrl}
                   alt={artwork.title}
@@ -81,14 +81,14 @@ export const FeaturedArtworks = () => {
                   Featured
                 </span>
               </div>
-              <div className="p-6 bg-white/90 dark:bg-zinc-900/90 rounded-b-3xl flex flex-col items-center">
-                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-1 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors duration-300">
+              <div className="p-4 sm:p-6 bg-white/90 dark:bg-zinc-900/90 rounded-b-3xl flex flex-col items-center">
+                <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-1 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors duration-300">
                   {artwork.title}
                 </h3>
                 <p className="text-base text-gray-500 dark:text-gray-400 mb-2 font-medium">
                   {artwork.artist}
                 </p>
-                <p className="text-xl font-extrabold text-amber-600 dark:text-amber-400 mb-4 drop-shadow">
+                <p className="text-lg sm:text-xl font-extrabold text-amber-600 dark:text-amber-400 mb-4 drop-shadow">
                   {formatPrice(artwork.price)}
                 </p>
                 <button
@@ -116,7 +116,7 @@ export const FeaturedArtworks = () => {
             exit={{ opacity: 0 }}
           >
             <motion.div
-              className="bg-gradient-to-br from-white via-amber-50 to-zinc-100 dark:from-zinc-950 dark:via-zinc-900 dark:to-amber-900 rounded-3xl shadow-2xl max-w-4xl w-full overflow-hidden relative border-4 border-amber-500 dark:border-amber-800"
+              className="bg-gradient-to-br from-white via-amber-50 to-zinc-100 dark:from-zinc-950 dark:via-zinc-900 dark:to-amber-900 rounded-3xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto relative border-4 border-amber-500 dark:border-amber-800"
               initial={{ scale: 0.9, y: 50 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.9, y: 50 }}
@@ -130,16 +130,16 @@ export const FeaturedArtworks = () => {
                 ✕
               </button>
               <div className="md:flex">
-                <div className="md:w-1/2 flex items-center justify-center bg-gradient-to-br from-amber-100 via-white to-amber-50 dark:from-amber-900 dark:via-zinc-900 dark:to-amber-950 p-8">
+                <div className="md:w-1/2 flex items-center justify-center bg-gradient-to-br from-amber-100 via-white to-amber-50 dark:from-amber-900 dark:via-zinc-900 dark:to-amber-950 p-4 sm:p-8">
                   <img
                     src={selectedArtwork.imageUrl}
                     alt={selectedArtwork.title}
-                    className="w-full h-80 object-cover rounded-2xl shadow-xl"
+                    className="w-full h-56 sm:h-80 object-cover rounded-2xl shadow-xl"
                     loading="lazy"
                   />
                 </div>
-                <div className="p-8 md:w-1/2 flex flex-col justify-center">
-                  <h2 className="text-4xl font-extrabold text-gray-900 dark:text-white mb-2 drop-shadow-lg">
+                <div className="p-4 sm:p-8 md:w-1/2 flex flex-col justify-center">
+                  <h2 className="text-2xl sm:text-4xl font-extrabold text-gray-900 dark:text-white mb-2 drop-shadow-lg">
                     {selectedArtwork.title}
                   </h2>
                   <p className="text-lg text-gray-500 dark:text-gray-400 mb-2 font-medium">{selectedArtwork.artist}</p>
