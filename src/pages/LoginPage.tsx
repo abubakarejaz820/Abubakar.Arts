@@ -92,7 +92,7 @@ export const LoginPage: React.FC = () => {
               Continue with Google
             </button>
             <p className="mt-2 text-xs text-zinc-500 dark:text-zinc-400">
-              Admin rights are auto-granted only to configured admin email (`VITE_ADMIN_EMAIL`).
+              Admin rights are auto-granted only to configured admin email (`VITE_ADMIN_EMAIL`). For real Google popup, add `VITE_GOOGLE_CLIENT_ID`.
             </p>
           </div>
         </div>

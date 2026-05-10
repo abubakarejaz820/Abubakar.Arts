@@ -48,7 +48,7 @@ export const Header: React.FC<HeaderProps> = ({ onCartClick }) => {
             </nav>
 
             {/* Right Icons & Mobile Menu */}
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2 sm:space-x-4">
               {/* Cart */}
               <button
                 onClick={onCartClick}
@@ -92,7 +92,7 @@ export const Header: React.FC<HeaderProps> = ({ onCartClick }) => {
 
               <button
                 onClick={logout}
-                className="p-2 text-sm font-medium rounded-full text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-zinc-700 transition-colors duration-300 shadow-sm"
+                className="p-2 text-xs sm:text-sm font-medium rounded-full text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-zinc-700 transition-colors duration-300 shadow-sm"
                 title={`Logged in as ${user?.email || 'user'}`}
               >
                 Logout

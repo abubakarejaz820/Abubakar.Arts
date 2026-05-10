@@ -17,6 +17,10 @@ export const Cart = ({ onClose }: CartProps) => {
   const [customerPhone, setCustomerPhone] = useState('');
   const [customerCity, setCustomerCity] = useState('');
   const navigate = useNavigate();
+  const adminNotifyEmail = import.meta.env.VITE_ORDER_ALERT_EMAIL || 'admin@example.com';
+  const emailJsServiceId = import.meta.env.VITE_EMAILJS_SERVICE_ID || 'service_lll8dag';
+  const emailJsTemplateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || 'template_ptk39hf';
+  const emailJsPublicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || 'T0ZCgC2PqopCvHbEM';
 
   // Clear Cart
   const handleClearCart = useCallback(() => setShowConfirmation(true), []);
@@ -68,22 +72,24 @@ export const Cart = ({ onClose }: CartProps) => {
       // Send Email to admin
       try {
         await emailjs.send(
-          'service_lll8dag',
-          'template_ptk39hf',
+          emailJsServiceId,
+          emailJsTemplateId,
           {
             order_id: order.id,
             cart_items: order.items.map((i: any) => `${i.title} (Qty: ${i.quantity})`).join('\n'),
             total_price: formatPrice(order.total),
-            admin_email: 'admin@example.com',
+            admin_email: adminNotifyEmail,
+            to_email: adminNotifyEmail,
             customer_name: customerName,
             customer_email: customerEmail,
             customer_phone: customerPhone,
             customer_city: customerCity,
           },
-          'T0ZCgC2PqopCvHbEM'
+          emailJsPublicKey
         );
       } catch (emailError) {
         console.error('EmailJS error:', emailError);
+        setCheckoutMessage('Order placed, but email notification failed.');
       }
 
       // Clear cart
@@ -113,7 +119,7 @@ export const Cart = ({ onClose }: CartProps) => {
       </div>
 
       {/* Customer Details */}
-      <div className="p-6 border-b border-gray-300 dark:border-zinc-700 space-y-3">
+      <div className="p-4 sm:p-6 border-b border-gray-300 dark:border-zinc-700 space-y-3">
         <input
           type="text"
           placeholder="Full Name"
@@ -145,13 +151,55 @@ export const Cart = ({ onClose }: CartProps) => {
       </div>
 
       {/* Cart Items */}
-      <div className="flex-1 overflow-y-auto p-6">
+      <div className="flex-1 overflow-y-auto p-4 sm:p-6">
         {cartItems.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20 text-center text-gray-600 dark:text-gray-400">
             <p className="mt-4 text-lg">Your cart is empty.</p>
           </div>
         ) : (
-          <table className="min-w-full table-auto">
+          <>
+            <div className="space-y-3 md:hidden">
+              {cartItems.map((item) => (
+                <div key={item.id} className="rounded-xl border border-gray-200 bg-white p-3 dark:border-zinc-700 dark:bg-zinc-900">
+                  <div className="flex gap-3">
+                    <img className="h-16 w-16 rounded-md object-cover" src={item.artwork.imageUrl} alt={item.artwork.title} />
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate text-sm font-semibold text-gray-900 dark:text-white">{item.artwork.title}</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">Size: {item.size}</p>
+                      <p className="mt-1 text-sm font-medium text-amber-600">{formatPrice(item.artwork.price)}</p>
+                    </div>
+                  </div>
+                  <div className="mt-3 flex items-center justify-between">
+                    <div className="flex items-center space-x-2">
+                      <button
+                        onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                        className="px-2 py-1 rounded-md bg-gray-200 dark:bg-zinc-700"
+                      >
+                        -
+                      </button>
+                      <span className="text-sm">{item.quantity}</span>
+                      <button
+                        onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                        className="px-2 py-1 rounded-md bg-gray-200 dark:bg-zinc-700"
+                      >
+                        +
+                      </button>
+                    </div>
+                    <div className="text-sm font-semibold text-gray-900 dark:text-white">
+                      {formatPrice(item.artwork.price * item.quantity)}
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => removeFromCart(item.id)}
+                    className="mt-3 text-sm font-medium text-red-600 dark:text-red-400"
+                  >
+                    Remove
+                  </button>
+                </div>
+              ))}
+            </div>
+
+            <table className="hidden min-w-full table-auto md:table">
             <thead>
               <tr className="border-b border-gray-300 dark:border-zinc-700">
                 <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product</th>
@@ -215,17 +263,18 @@ export const Cart = ({ onClose }: CartProps) => {
                 </tr>
               ))}
             </tbody>
-          </table>
+            </table>
+          </>
         )}
       </div>
 
       {/* Footer */}
       {cartItems.length > 0 && (
-        <div className="p-6 border-t border-gray-300 dark:border-zinc-700 flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
+        <div className="p-4 sm:p-6 border-t border-gray-300 dark:border-zinc-700 flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
           <div className="text-lg font-bold text-gray-900 dark:text-white">
             Total: {formatPrice(getTotalPrice())}
           </div>
-          <div className="flex space-x-4">
+          <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:space-x-0">
             <button
               onClick={handleClearCart}
               className="px-4 py-2 text-red-600 border border-red-600 rounded-md hover:bg-red-600 hover:text-white transition"

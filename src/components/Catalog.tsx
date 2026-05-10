@@ -12,6 +12,7 @@ interface CatalogProps {
 export const Catalog = ({ openCart }: CatalogProps) => {
   const [activeCategory, setActiveCategory] = useState('All');
   const [cartAnimate, setCartAnimate] = useState<Record<string, boolean>>({});
+  const [selectedArtwork, setSelectedArtwork] = useState<Artwork | null>(null);
   const { addToCart } = useCartContext();
   const { products, categories } = useProducts();
 
@@ -111,6 +112,12 @@ export const Catalog = ({ openCart }: CatalogProps) => {
                 <p className="mt-3 text-lg font-bold text-amber-600 dark:text-amber-500">
                   {formatPrice(artwork.price)}
                 </p>
+                <button
+                  onClick={() => setSelectedArtwork(artwork)}
+                  className="mt-3 text-sm font-medium text-amber-700 hover:text-amber-800 dark:text-amber-400 dark:hover:text-amber-300"
+                >
+                  View details
+                </button>
                 <div className="flex gap-2 mt-5 w-full">
                   {/* Add to cart button */}
                   <button
@@ -174,6 +181,59 @@ export const Catalog = ({ openCart }: CatalogProps) => {
           ))}
         </div>
       </div>
+
+      {selectedArtwork && (
+        <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/60 p-4">
+          <div className="max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-3xl bg-white p-5 shadow-2xl dark:bg-zinc-900 sm:p-6">
+            <div className="grid gap-6 md:grid-cols-2">
+              <img
+                src={selectedArtwork.imageUrl}
+                alt={selectedArtwork.title}
+                className="h-72 w-full rounded-2xl object-cover sm:h-80"
+              />
+              <div>
+                <h3 className="text-2xl font-bold text-zinc-900 dark:text-white">{selectedArtwork.title}</h3>
+                <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">{selectedArtwork.artist}</p>
+                <p className="mt-3 text-lg font-bold text-amber-600 dark:text-amber-400">
+                  {formatPrice(selectedArtwork.price)}
+                </p>
+                <p className="mt-4 text-sm leading-relaxed text-zinc-700 dark:text-zinc-300">
+                  {selectedArtwork.description}
+                </p>
+                <p className="mt-4 text-sm text-zinc-600 dark:text-zinc-400">
+                  Available sizes: {selectedArtwork.sizes.join(', ')}
+                </p>
+                <div className="mt-6 flex flex-wrap gap-3">
+                  <button
+                    onClick={() => {
+                      handleAddToCart(selectedArtwork);
+                      setSelectedArtwork(null);
+                    }}
+                    className="rounded-xl bg-amber-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-amber-700"
+                  >
+                    Add to Cart
+                  </button>
+                  <button
+                    onClick={() => {
+                      handleBuyNow(selectedArtwork);
+                      setSelectedArtwork(null);
+                    }}
+                    className="rounded-xl bg-emerald-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-emerald-700"
+                  >
+                    Buy Now
+                  </button>
+                  <button
+                    onClick={() => setSelectedArtwork(null)}
+                    className="rounded-xl border border-zinc-300 px-5 py-2.5 text-sm font-medium text-zinc-700 hover:bg-zinc-100 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800"
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 };
